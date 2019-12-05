@@ -21,6 +21,9 @@
     <title><%= etudiant.getNom() %></title>
 </head>
 <body>
-    <h1>Bonjour <%= etudiant.getPrenom() + " " + etudiant.getNom() %></h1>
+    <div class="container">
+        <h1 class="mt-4">Bonjour <%= etudiant.getPrenom() + " " + etudiant.getNom() %></h1>
+        <a href="index.jsp">Retour à la liste des étudiants</a>
+    </div>
 </body>
 </html>
