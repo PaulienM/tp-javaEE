@@ -29,7 +29,7 @@
       for (Etudiant etudiant: etudiants) {
     %>
     <tr>
-      <th scope="row"><%= etudiant.getId() %></th>
+      <th scope="row"><a href="details.jsp?id=<%=etudiant.getId()%>"><%= etudiant.getId() %></a></th>
       <td><%= etudiant.getPrenom() %></td>
       <td><%= etudiant.getNom() %></td>
     </tr>
