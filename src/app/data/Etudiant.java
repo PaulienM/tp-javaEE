@@ -1,19 +1,31 @@
 package app.data;
 
+import javax.persistence.*;
+
+@Entity
 public class Etudiant {
-	
+
+	@Id
+	@GeneratedValue
 	private Integer id;
+
+	@Column(nullable=false)
 	private String prenom;
+
+	@Column(nullable=false)
 	private String nom;
+
 	private int nbAbsences;
+
+	@ManyToOne
+	private Groupe groupe;
 	private int moyenneGenerale;
-	private String groupe;
-	
+
 	public Etudiant() {
 		super();
 	}
 
-	public Etudiant(Integer id, String prenom, String nom, String groupe) {
+	public Etudiant(Integer id, String prenom, String nom, Groupe groupe) {
 		super();
 		this.id = id;
 		this.prenom = prenom;
@@ -60,14 +72,16 @@ public class Etudiant {
 	}
 
 	public void setMoyenneGenerale(int moyenneGenerale) {
-		this.moyenneGenerale = moyenneGenerale;
+		if ((moyenneGenerale >= 0) && (moyenneGenerale <= 20)) {
+			this.moyenneGenerale = moyenneGenerale;
+		}
 	}
 
-	public String getGroupe() {
+	public Groupe getGroupe() {
 		return groupe;
 	}
 
-	public void setGroupe(String groupe) {
+	public void setGroupe(Groupe groupe) {
 		this.groupe = groupe;
 	}
 }

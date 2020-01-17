@@ -38,7 +38,7 @@ Map<Etudiant,Integer> listeAbsencesEtudiants = (Map<Etudiant,Integer>)request.ge
             <td>
                 <a href="<%= application.getContextPath()%>/do/etudiant?id=<%=etudiant.getId()%>"><%=etudiant.getPrenom()%> <%=etudiant.getNom()%>
                 </a></td>
-            <td><%=etudiant.getGroupe()%>
+            <td><%=etudiant.getGroupe().getNom()%>
             </td>
             <td><%=absences%>
             </td>

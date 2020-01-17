@@ -9,7 +9,9 @@ package app.servlet;
  */
 import java.io.IOException;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -18,8 +20,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import app.data.Etudiant;
-import app.data.GestionFactory;
+import app.data.*;
+import app.data.Module;
 
 @SuppressWarnings("serial")
 public class Controller extends HttpServlet {
@@ -35,6 +37,7 @@ public class Controller extends HttpServlet {
 
     // INIT
     public void init() throws ServletException {
+        GestionFactory.open();
         // Récupération des URLs en paramètre du web.xml
         urlGestionTemplate = getServletConfig().getInitParameter("urlGestionTemplate");
         urlAccueil = getServletConfig().getInitParameter("urlAccueil");
@@ -42,6 +45,49 @@ public class Controller extends HttpServlet {
         urlEtudiant = getServletConfig().getInitParameter("urlEtudiant");
         urlConsultationAbsences = getServletConfig().getInitParameter("urlConsultationAbsences");
         urlConsultationNotes = getServletConfig().getInitParameter("urlConsultationNotes");
+
+        if ((GroupeDAO.getAll().size() == 0) && (EtudiantDAO.getAll().size() == 0)) {
+
+            // Creation des groupes
+            Groupe MIAM = GroupeDAO.create("miam");
+            Groupe SIMO = GroupeDAO.create("SIMO");
+            Groupe MESSI = GroupeDAO.create("MESSI");
+
+            // Creation des étudiants
+            EtudiantDAO.create("Francis", "Brunet-Manquat", MIAM);
+            EtudiantDAO.create("Philippe", "Martin", MIAM);
+            EtudiantDAO.create("Mario", "Cortes-Cornax", MIAM);
+            EtudiantDAO.create("Françoise", "Coat", SIMO);
+            EtudiantDAO.create("Laurent", "Bonnaud", MESSI);
+            EtudiantDAO.create("Sébastien", "Bourdon", MESSI);
+            EtudiantDAO.create("Mathieu", "Gatumel", SIMO);
+
+            // Creation des groupes
+            Module MI1 = ModuleDAO.create("MI1");
+            Module MI4 = ModuleDAO.create("MI4");
+
+            // Liés groupe et module
+            //MIAM.addModule(MI1);
+            //MIAM.addModule(MI4);
+            //SIMO.addModule(MI1);
+
+            MI1.addGroupe(MIAM);
+            MI4.addGroupe(MIAM);
+            MI1.addGroupe(SIMO);
+
+            //GroupeDAO.update(MIAM);
+            //GroupeDAO.update(SIMO);
+
+            ModuleDAO.update(MI1);
+            ModuleDAO.update(MI4);
+
+        }
+    }
+
+    @Override
+    public void destroy() {
+        super.destroy();
+        GestionFactory.close();
     }
 
     // POST
@@ -98,7 +144,7 @@ public class Controller extends HttpServlet {
                                   HttpServletResponse response) throws ServletException, IOException {
 
         // Récupérer les étudiants
-        Collection<Etudiant> listeEtudiants = GestionFactory.getEtudiants();
+        Collection<Etudiant> listeEtudiants = EtudiantDAO.getAll();
 
         // Mettre les étudians en attibuts de request
         request.setAttribute("listeEtudiants", listeEtudiants);
@@ -115,9 +161,9 @@ public class Controller extends HttpServlet {
 
         // Récupérer le parametre id, l'objet Etudiant associé, le nombre d'absences et la moyenne
         int idEtudiant = Integer.parseInt(request.getParameter("id"));
-        Etudiant etudiant = GestionFactory.getEtudiantById(idEtudiant);
-        int nbAbsences = GestionFactory.getAbsencesByEtudiantId(idEtudiant);
-        int note = GestionFactory.getNoteByEtudiantId(idEtudiant);
+        Etudiant etudiant = EtudiantDAO.retrieveById(idEtudiant);
+        int nbAbsences = etudiant.getNbAbsences();
+        int note = etudiant.getMoyenneGenerale();
 
         // Mettre l'objet étudiant en attribut pour affichage par la vue
         // correspondant
@@ -137,10 +183,13 @@ public class Controller extends HttpServlet {
                                      HttpServletResponse response) throws ServletException, IOException {
 
         // Récupérer les étudiants en fonction du filtre groupe
-        Collection<Etudiant> listeEtudiants = GestionFactory.getEtudiants();
+        Collection<Etudiant> listeEtudiants = EtudiantDAO.getAll();
 
         // Récupérer l'association Etudiant/Note pour affichage
-        Map<Etudiant, Integer> listeNotesEtudiants = GestionFactory.getNoteByEtudiants(listeEtudiants);
+        Map<Etudiant, Integer> listeNotesEtudiants = new HashMap<>();
+        for (Etudiant etudiant: listeEtudiants) {
+            listeNotesEtudiants.put(etudiant, etudiant.getMoyenneGenerale());
+        }
 
         //
         request.setAttribute("listeNotesEtudiants", listeNotesEtudiants);
@@ -156,10 +205,13 @@ public class Controller extends HttpServlet {
                                         HttpServletResponse response) throws ServletException, IOException {
 
         // Récupérer les étudiants
-        Collection<Etudiant> listeEtudiants = GestionFactory.getEtudiants();
+        Collection<Etudiant> listeEtudiants = EtudiantDAO.getAll();
 
         // Récupérer l'association Etudiant/Note pour affichage
-        Map<Etudiant, Integer> listeAbsencesEtudiants = GestionFactory.getAbsencesByEtudiants(listeEtudiants);
+        Map<Etudiant, Integer> listeAbsencesEtudiants = new HashMap<>();
+        for (Etudiant etudiant: listeEtudiants) {
+            listeAbsencesEtudiants.put(etudiant, etudiant.getNbAbsences());
+        }
 
         //
         request.setAttribute("listeAbsencesEtudiants", listeAbsencesEtudiants);

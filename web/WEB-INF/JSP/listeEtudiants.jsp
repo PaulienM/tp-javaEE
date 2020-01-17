@@ -20,6 +20,10 @@
     <!-- tableau de notes  -->
     <table class="table table-striped table-dark">
 
+        <tr>
+            <th>Etudiant</th>
+            <th>Groupe</th>
+        </tr>
         <%
             int sommeMoyenneGenerale = 0;
             for (Etudiant etudiant : listeEtudiants) {
@@ -28,7 +32,7 @@
             <td>
                 <a href="<%= application.getContextPath()%>/do/etudiant?id=<%=etudiant.getId()%>"><%=etudiant.getPrenom()%> <%=etudiant.getNom()%>
                 </a></td>
-            <td><%=etudiant.getGroupe()%>
+            <td><%=etudiant.getGroupe().getNom()%>
             </td>
         </tr>
         <%

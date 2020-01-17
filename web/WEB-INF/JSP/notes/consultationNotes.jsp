@@ -40,7 +40,7 @@ Map<Etudiant,Integer> listeNotesEtudiants = (Map<Etudiant,Integer>)request.getAt
             <td>
                 <a href="<%= application.getContextPath()%>/do/etudiant?id=<%=etudiant.getId()%>"><%=etudiant.getPrenom()%> <%=etudiant.getNom()%>
                 </a></td>
-            <td><%=etudiant.getGroupe()%>
+            <td><%=etudiant.getGroupe().getNom()%>
             </td>
             <td><%=note%>
             </td>

@@ -14,7 +14,7 @@
     <table class="table table-striped table-dark">
         <tr>
             <td>Groupe</td>
-            <td><%=etudiant.getGroupe()%>
+            <td><%=etudiant.getGroupe().getNom()%>
             </td>
         </tr>
         <tr>
