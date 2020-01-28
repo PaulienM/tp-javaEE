@@ -8,6 +8,7 @@
 
 <%-- USEBEAN --%>
 <jsp:useBean id="listeNotesEtudiants" type="java.util.Map<app.data.Etudiant,java.lang.Integer>" scope="request"/>
+<jsp:useBean id="listeEtudiants" type="java.util.Collection<app.data.Etudiant>" scope="request"/>
 
 
 <!--% ou en JAVA
@@ -32,9 +33,8 @@ Map<Etudiant,Integer> listeNotesEtudiants = (Map<Etudiant,Integer>)request.getAt
 
         <%
             int sommeMoyenneGenerale = 0;
-            for (Map.Entry<Etudiant, Integer> entry : listeNotesEtudiants.entrySet()) {
-                Etudiant etudiant = entry.getKey();
-                Integer note = entry.getValue();
+            for (Etudiant etudiant : listeEtudiants) {
+                Integer note = listeNotesEtudiants.get(etudiant);
         %>
         <tr>
             <td>

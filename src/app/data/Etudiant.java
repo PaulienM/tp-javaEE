@@ -67,6 +67,14 @@ public class Etudiant {
 		this.nbAbsences = nbAbsences;
 	}
 
+	public void ajouterAbsence() {
+		this.nbAbsences++;
+	}
+
+	public void enleverAbsence() {
+		this.nbAbsences--;
+	}
+
 	public int getMoyenneGenerale() {
 		return moyenneGenerale;
 	}

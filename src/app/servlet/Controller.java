@@ -67,16 +67,16 @@ public class Controller extends HttpServlet {
             Module MI4 = ModuleDAO.create("MI4");
 
             // Liés groupe et module
-            //MIAM.addModule(MI1);
-            //MIAM.addModule(MI4);
-            //SIMO.addModule(MI1);
+            MIAM.addModule(MI1);
+            MIAM.addModule(MI4);
+            SIMO.addModule(MI1);
 
             MI1.addGroupe(MIAM);
             MI4.addGroupe(MIAM);
             MI1.addGroupe(SIMO);
 
-            //GroupeDAO.update(MIAM);
-            //GroupeDAO.update(SIMO);
+            GroupeDAO.update(MIAM);
+            GroupeDAO.update(SIMO);
 
             ModuleDAO.update(MI1);
             ModuleDAO.update(MI4);
@@ -121,7 +121,12 @@ public class Controller extends HttpServlet {
             doConsultationAbsences(request, response);
         } else if (action.equals("/consultationNotes")) {
             doConsultationNotes(request, response);
+        } else if (action.equals("/ajouter-absence")) {
 
+            doAjouterAbsence(request, response);
+        } else if (action.equals("/enlever-absence")) {
+
+            doEnleverAbsence(request, response);
         } else {
             // Autres cas
             doAcceuil(request, response);
@@ -193,6 +198,8 @@ public class Controller extends HttpServlet {
 
         //
         request.setAttribute("listeNotesEtudiants", listeNotesEtudiants);
+        //Pour les avoir dans l'ordre
+        request.setAttribute("listeEtudiants", listeEtudiants);
 
         //
         request.setAttribute("content", urlConsultationNotes);
@@ -215,10 +222,38 @@ public class Controller extends HttpServlet {
 
         //
         request.setAttribute("listeAbsencesEtudiants", listeAbsencesEtudiants);
-
+        //Pour les avoir dans l'ordre
+        request.setAttribute("listeEtudiants", listeEtudiants);
         //
         request.setAttribute("content", urlConsultationAbsences);
         loadJSP(urlGestionTemplate, request, response);
+    }
+
+
+    private void doAjouterAbsence(HttpServletRequest request,
+                                   HttpServletResponse response) throws ServletException, IOException {
+        //On récupère l'étudiant
+        int idEtudiant = Integer.parseInt(request.getParameter("id"));
+        Etudiant etudiant = EtudiantDAO.retrieveById(idEtudiant);
+
+        etudiant.ajouterAbsence();
+
+        EtudiantDAO.update(etudiant);
+
+        doConsultationAbsences(request, response);
+    }
+
+    private void doEnleverAbsence(HttpServletRequest request,
+                                  HttpServletResponse response) throws ServletException, IOException {
+        //On récupère l'étudiant
+        int idEtudiant = Integer.parseInt(request.getParameter("id"));
+        Etudiant etudiant = EtudiantDAO.retrieveById(idEtudiant);
+
+        etudiant.enleverAbsence();
+
+        EtudiantDAO.update(etudiant);
+
+        doConsultationAbsences(request, response);
     }
 
 

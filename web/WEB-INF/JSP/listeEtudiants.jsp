@@ -12,7 +12,7 @@
 <div>
 
     <!-- AFFICHAGE d'un titre  -->
-    <h3 class="ml-4">Moyennes générales</h3>
+    <h3 class="ml-4">Liste des étudiants</h3>
 
     <!-- AFFICHAGE des notes des étudiants  -->
     <% if (listeEtudiants.size() != 0) {%>
@@ -25,13 +25,13 @@
             <th>Groupe</th>
         </tr>
         <%
-            int sommeMoyenneGenerale = 0;
             for (Etudiant etudiant : listeEtudiants) {
         %>
         <tr>
             <td>
                 <a href="<%= application.getContextPath()%>/do/etudiant?id=<%=etudiant.getId()%>"><%=etudiant.getPrenom()%> <%=etudiant.getNom()%>
-                </a></td>
+                </a>
+            </td>
             <td><%=etudiant.getGroupe().getNom()%>
             </td>
         </tr>

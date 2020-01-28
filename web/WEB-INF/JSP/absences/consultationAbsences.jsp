@@ -8,6 +8,7 @@
 
 <%-- USEBEAN --%>
 <jsp:useBean id="listeAbsencesEtudiants" type="java.util.Map<app.data.Etudiant,java.lang.Integer>" scope="request"/>
+<jsp:useBean id="listeEtudiants" type="java.util.Collection<app.data.Etudiant>" scope="request"/>
 
 <!--% ou en JAVA
 Map<Etudiant,Integer> listeAbsencesEtudiants = (Map<Etudiant,Integer>)request.getAttribute("listeAbsencesEtudiants");
@@ -27,12 +28,12 @@ Map<Etudiant,Integer> listeAbsencesEtudiants = (Map<Etudiant,Integer>)request.ge
             <th>Etudiant</th>
             <th>Groupe</th>
             <th>Nombre d'absences</th>
+            <th>Gérer les absence</th>
         </tr>
         <%
             int totalAbsences = 0;
-            for (Map.Entry<Etudiant, Integer> entry : listeAbsencesEtudiants.entrySet()) {
-                Etudiant etudiant = entry.getKey();
-                Integer absences = entry.getValue();
+            for (Etudiant etudiant : listeEtudiants) {
+                Integer absences = listeAbsencesEtudiants.get(etudiant);
         %>
         <tr>
             <td>
@@ -41,6 +42,12 @@ Map<Etudiant,Integer> listeAbsencesEtudiants = (Map<Etudiant,Integer>)request.ge
             <td><%=etudiant.getGroupe().getNom()%>
             </td>
             <td><%=absences%>
+            </td>
+            <td>
+                <div class="btn-group" role="group">
+                    <a class="btn btn-secondary" href="<%= application.getContextPath()%>/do/ajouter-absence?id=<%=etudiant.getId()%>">+</a>
+                    <a class="btn btn-secondary" href="<%= application.getContextPath()%>/do/enlever-absence?id=<%=etudiant.getId()%>">-</a>
+                </div>
             </td>
         </tr>
         <%
