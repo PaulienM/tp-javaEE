@@ -45,8 +45,8 @@ Map<Etudiant,Integer> listeAbsencesEtudiants = (Map<Etudiant,Integer>)request.ge
             </td>
             <td>
                 <div class="btn-group" role="group">
-                    <a class="btn btn-secondary" href="<%= application.getContextPath()%>/do/ajouter-absence?id=<%=etudiant.getId()%>">+</a>
                     <a class="btn btn-secondary<%=absences < 1 ? " disabled":""%>" href="<%= application.getContextPath()%>/do/enlever-absence?id=<%=etudiant.getId()%>">-</a>
+                    <a class="btn btn-secondary" href="<%= application.getContextPath()%>/do/ajouter-absence?id=<%=etudiant.getId()%>">+</a>
                 </div>
             </td>
         </tr>
