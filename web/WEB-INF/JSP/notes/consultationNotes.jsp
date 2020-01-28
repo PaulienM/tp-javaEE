@@ -3,17 +3,12 @@
 
 <%-- IMPORT --%>
 <%@ page import="java.util.*" %>
-<%@ page import="java.lang.Integer" %>
 <%@ page import="app.data.*" %>
 
 <%-- USEBEAN --%>
 <jsp:useBean id="listeNotesEtudiants" type="java.util.Map<app.data.Etudiant,java.lang.Float>" scope="request"/>
 <jsp:useBean id="listeEtudiants" type="java.util.Collection<app.data.Etudiant>" scope="request"/>
 
-
-<!--% ou en JAVA
-Map<Etudiant,Integer> listeNotesEtudiants = (Map<Etudiant,Integer>)request.getAttribute("listeNotesEtudiants");
-%-->
 
 <div>
 
@@ -22,6 +17,8 @@ Map<Etudiant,Integer> listeNotesEtudiants = (Map<Etudiant,Integer>)request.getAt
 
     <!-- AFFICHAGE des notes des étudiants  -->
     <% if (listeNotesEtudiants.size() != 0) {%>
+
+    <jsp:include page="/WEB-INF/JSP/filtreGroupe.jsp"/>
 
     <!-- tableau de notes  -->
     <table class="table table-striped table-dark">

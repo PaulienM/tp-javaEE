@@ -155,7 +155,14 @@ public class Controller extends HttpServlet {
                                   HttpServletResponse response) throws ServletException, IOException {
 
         // Récupérer les étudiants
-        Collection<Etudiant> listeEtudiants = EtudiantDAO.getAll();
+        Collection<Etudiant> listeEtudiants;
+        String idGroupe = request.getParameter("idGroupe");
+        if (idGroupe != null) {
+            Groupe groupe = GroupeDAO.retrieveById(Integer.parseInt(idGroupe));
+            listeEtudiants = EtudiantDAO.getAllByGroupe(groupe);
+        } else {
+            listeEtudiants = EtudiantDAO.getAll();
+        }
 
         // Mettre les étudians en attibuts de request
         request.setAttribute("listeEtudiants", listeEtudiants);
@@ -193,8 +200,15 @@ public class Controller extends HttpServlet {
     private void doConsultationNotes(HttpServletRequest request,
                                      HttpServletResponse response) throws ServletException, IOException {
 
-        // Récupérer les étudiants en fonction du filtre groupe
-        Collection<Etudiant> listeEtudiants = EtudiantDAO.getAll();
+        // Récupérer les étudiants
+        Collection<Etudiant> listeEtudiants;
+        String idGroupe = request.getParameter("idGroupe");
+        if (idGroupe != null) {
+            Groupe groupe = GroupeDAO.retrieveById(Integer.parseInt(idGroupe));
+            listeEtudiants = EtudiantDAO.getAllByGroupe(groupe);
+        } else {
+            listeEtudiants = EtudiantDAO.getAll();
+        }
 
         // Récupérer l'association Etudiant/Note pour affichage
         Map<Etudiant, Float> listeNotesEtudiants = new HashMap<>();
@@ -218,7 +232,14 @@ public class Controller extends HttpServlet {
                                         HttpServletResponse response) throws ServletException, IOException {
 
         // Récupérer les étudiants
-        Collection<Etudiant> listeEtudiants = EtudiantDAO.getAll();
+        Collection<Etudiant> listeEtudiants;
+        String idGroupe = request.getParameter("idGroupe");
+        if (idGroupe != null) {
+            Groupe groupe = GroupeDAO.retrieveById(Integer.parseInt(idGroupe));
+            listeEtudiants = EtudiantDAO.getAllByGroupe(groupe);
+        } else {
+            listeEtudiants = EtudiantDAO.getAll();
+        }
 
         // Récupérer l'association Etudiant/Note pour affichage
         Map<Etudiant, Integer> listeAbsencesEtudiants = new HashMap<>();

@@ -17,6 +17,8 @@
     <!-- AFFICHAGE des notes des étudiants  -->
     <% if (listeEtudiants.size() != 0) {%>
 
+    <jsp:include page="/WEB-INF/JSP/filtreGroupe.jsp"/>
+
     <!-- tableau de notes  -->
     <table class="table table-striped table-dark">
 

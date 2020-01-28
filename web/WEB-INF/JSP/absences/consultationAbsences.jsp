@@ -22,6 +22,8 @@ Map<Etudiant,Integer> listeAbsencesEtudiants = (Map<Etudiant,Integer>)request.ge
     <!-- AFFICHAGE des notes des étudiants  -->
     <% if (listeAbsencesEtudiants.size() != 0) {%>
 
+    <jsp:include page="/WEB-INF/JSP/filtreGroupe.jsp"/>
+
     <!-- tableau de notes  -->
     <table class="table table-striped table-dark">
         <tr>
