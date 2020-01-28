@@ -19,7 +19,7 @@ public class Etudiant {
 
 	@ManyToOne
 	private Groupe groupe;
-	private int moyenneGenerale;
+	private float moyenneGenerale;
 
 	public Etudiant() {
 		super();
@@ -72,14 +72,16 @@ public class Etudiant {
 	}
 
 	public void enleverAbsence() {
-		this.nbAbsences--;
+		if (nbAbsences > 0) {
+			this.nbAbsences--;
+		}
 	}
 
-	public int getMoyenneGenerale() {
+	public float getMoyenneGenerale() {
 		return moyenneGenerale;
 	}
 
-	public void setMoyenneGenerale(int moyenneGenerale) {
+	public void setMoyenneGenerale(float moyenneGenerale) {
 		if ((moyenneGenerale >= 0) && (moyenneGenerale <= 20)) {
 			this.moyenneGenerale = moyenneGenerale;
 		}

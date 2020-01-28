@@ -7,7 +7,7 @@
 <%@ page import="app.data.*" %>
 
 <%-- USEBEAN --%>
-<jsp:useBean id="listeNotesEtudiants" type="java.util.Map<app.data.Etudiant,java.lang.Integer>" scope="request"/>
+<jsp:useBean id="listeNotesEtudiants" type="java.util.Map<app.data.Etudiant,java.lang.Float>" scope="request"/>
 <jsp:useBean id="listeEtudiants" type="java.util.Collection<app.data.Etudiant>" scope="request"/>
 
 
@@ -32,9 +32,9 @@ Map<Etudiant,Integer> listeNotesEtudiants = (Map<Etudiant,Integer>)request.getAt
         </tr>
 
         <%
-            int sommeMoyenneGenerale = 0;
+            float sommeMoyenneGenerale = 0;
             for (Etudiant etudiant : listeEtudiants) {
-                Integer note = listeNotesEtudiants.get(etudiant);
+                float note = listeNotesEtudiants.get(etudiant);
         %>
         <tr>
             <td>

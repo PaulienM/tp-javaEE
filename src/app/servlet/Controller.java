@@ -93,8 +93,14 @@ public class Controller extends HttpServlet {
     // POST
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
-        // on passe la main au GET
-        doGet(request, response);
+        // On récupère le path
+        String action = request.getPathInfo();
+        if (action.equals("/modifier-moyenne")) {
+            doChangerMoyenne(request, response);
+        } else {
+            // on passe la main au GET
+            doGet(request, response);
+        }
     }
 
     // GET
@@ -168,7 +174,7 @@ public class Controller extends HttpServlet {
         int idEtudiant = Integer.parseInt(request.getParameter("id"));
         Etudiant etudiant = EtudiantDAO.retrieveById(idEtudiant);
         int nbAbsences = etudiant.getNbAbsences();
-        int note = etudiant.getMoyenneGenerale();
+        float note = etudiant.getMoyenneGenerale();
 
         // Mettre l'objet étudiant en attribut pour affichage par la vue
         // correspondant
@@ -191,7 +197,7 @@ public class Controller extends HttpServlet {
         Collection<Etudiant> listeEtudiants = EtudiantDAO.getAll();
 
         // Récupérer l'association Etudiant/Note pour affichage
-        Map<Etudiant, Integer> listeNotesEtudiants = new HashMap<>();
+        Map<Etudiant, Float> listeNotesEtudiants = new HashMap<>();
         for (Etudiant etudiant: listeEtudiants) {
             listeNotesEtudiants.put(etudiant, etudiant.getMoyenneGenerale());
         }
@@ -256,7 +262,20 @@ public class Controller extends HttpServlet {
         doConsultationAbsences(request, response);
     }
 
+    private void doChangerMoyenne(HttpServletRequest request,
+                                  HttpServletResponse response) throws ServletException, IOException {
+        System.out.println("COuCou");
+        int idEtudiant = Integer.parseInt(request.getParameter("id"));
+        Etudiant etudiant = EtudiantDAO.retrieveById(idEtudiant);
 
+        float moyenne = Float.parseFloat(request.getParameter("moyenne"));
+
+        etudiant.setMoyenneGenerale(moyenne);
+
+        EtudiantDAO.update(etudiant);
+
+        doEtudiant(request,response);
+    }
 
     /**
      * Charge la JSP indiquée en paramètre
