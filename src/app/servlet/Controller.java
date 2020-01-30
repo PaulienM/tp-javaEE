@@ -278,7 +278,7 @@ public class Controller extends HttpServlet {
 
         EtudiantDAO.update(etudiant);
 
-        doConsultationAbsences(request, response);
+        response.sendRedirect(request.getContextPath() + "/do/consultationAbsences");
     }
 
     private void doEnleverAbsence(HttpServletRequest request,
@@ -291,7 +291,7 @@ public class Controller extends HttpServlet {
 
         EtudiantDAO.update(etudiant);
 
-        doConsultationAbsences(request, response);
+        response.sendRedirect(request.getContextPath() + "/do/consultationAbsences");
     }
 
     private void doChangerMoyenne(HttpServletRequest request,
@@ -305,7 +305,7 @@ public class Controller extends HttpServlet {
 
         EtudiantDAO.update(etudiant);
 
-        doEtudiant(request, response);
+        response.sendRedirect(request.getContextPath() + "/do/etudiant?id=" + etudiant.getId());
     }
 
     private void doNouvelEtudiant(HttpServletRequest request,
@@ -361,7 +361,7 @@ public class Controller extends HttpServlet {
         Etudiant etudiant = EtudiantDAO.retrieveById(Integer.parseInt(request.getParameter("id")));
         EtudiantDAO.remove(etudiant);
 
-        doListeEtudiants(request,response);
+        response.sendRedirect(request.getContextPath() + "/do/listeEtudiants");
     }
 
     /**
