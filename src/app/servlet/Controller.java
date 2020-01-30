@@ -7,11 +7,9 @@ package app.servlet;
  * @author hb
  *
  */
+
 import java.io.IOException;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -33,6 +31,7 @@ public class Controller extends HttpServlet {
     private String urlEtudiant;
     private String urlConsultationAbsences;
     private String urlConsultationNotes;
+    private String urlNouvelEtudiant;
 
 
     // INIT
@@ -45,6 +44,7 @@ public class Controller extends HttpServlet {
         urlEtudiant = getServletConfig().getInitParameter("urlEtudiant");
         urlConsultationAbsences = getServletConfig().getInitParameter("urlConsultationAbsences");
         urlConsultationNotes = getServletConfig().getInitParameter("urlConsultationNotes");
+        urlNouvelEtudiant = getServletConfig().getInitParameter("urlNouvelEtudiant");
 
         if ((GroupeDAO.getAll().size() == 0) && (EtudiantDAO.getAll().size() == 0)) {
 
@@ -133,6 +133,9 @@ public class Controller extends HttpServlet {
         } else if (action.equals("/enlever-absence")) {
 
             doEnleverAbsence(request, response);
+        } else if (action.equals("/creer-etudiant")) {
+
+            doNouvelEtudiant(request, response);
         } else {
             // Autres cas
             doAcceuil(request, response);
@@ -212,7 +215,7 @@ public class Controller extends HttpServlet {
 
         // Récupérer l'association Etudiant/Note pour affichage
         Map<Etudiant, Float> listeNotesEtudiants = new HashMap<>();
-        for (Etudiant etudiant: listeEtudiants) {
+        for (Etudiant etudiant : listeEtudiants) {
             listeNotesEtudiants.put(etudiant, etudiant.getMoyenneGenerale());
         }
 
@@ -243,7 +246,7 @@ public class Controller extends HttpServlet {
 
         // Récupérer l'association Etudiant/Note pour affichage
         Map<Etudiant, Integer> listeAbsencesEtudiants = new HashMap<>();
-        for (Etudiant etudiant: listeEtudiants) {
+        for (Etudiant etudiant : listeEtudiants) {
             listeAbsencesEtudiants.put(etudiant, etudiant.getNbAbsences());
         }
 
@@ -258,7 +261,7 @@ public class Controller extends HttpServlet {
 
 
     private void doAjouterAbsence(HttpServletRequest request,
-                                   HttpServletResponse response) throws ServletException, IOException {
+                                  HttpServletResponse response) throws ServletException, IOException {
         //On récupère l'étudiant
         int idEtudiant = Integer.parseInt(request.getParameter("id"));
         Etudiant etudiant = EtudiantDAO.retrieveById(idEtudiant);
@@ -285,7 +288,6 @@ public class Controller extends HttpServlet {
 
     private void doChangerMoyenne(HttpServletRequest request,
                                   HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("COuCou");
         int idEtudiant = Integer.parseInt(request.getParameter("id"));
         Etudiant etudiant = EtudiantDAO.retrieveById(idEtudiant);
 
@@ -295,7 +297,28 @@ public class Controller extends HttpServlet {
 
         EtudiantDAO.update(etudiant);
 
-        doEtudiant(request,response);
+        doEtudiant(request, response);
+    }
+
+    private void doNouvelEtudiant(HttpServletRequest request,
+                                  HttpServletResponse response) throws ServletException, IOException {
+        String nom = request.getParameter("nom");
+        String prenom = request.getParameter("prenom");
+        String groupeId = request.getParameter("groupe");
+
+        if (nom != null && prenom != null && groupeId != null) {
+            Groupe groupe = GroupeDAO.retrieveById(Integer.parseInt(groupeId));
+            EtudiantDAO.create(prenom, nom, groupe);
+
+            doListeEtudiants(request,response);
+        }
+
+        List<Groupe> groupes = GroupeDAO.getAll();
+
+        request.setAttribute("groupes", groupes);
+
+        request.setAttribute("content", urlNouvelEtudiant);
+        loadJSP(urlGestionTemplate, request, response);
     }
 
     /**

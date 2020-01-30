@@ -11,6 +11,7 @@
 
 <div>
 
+    <a href="<%=application.getContextPath()%>/do/creer-etudiant" class="btn btn-success ml-4">Créer un etudiant</a>
     <!-- AFFICHAGE d'un titre  -->
     <h3 class="ml-4">Liste des étudiants</h3>
 
