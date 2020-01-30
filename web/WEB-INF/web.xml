@@ -55,6 +55,10 @@
             <param-name>urlNouvelEtudiant</param-name>
             <param-value>/WEB-INF/JSP/nouvelEtudiant.jsp</param-value>
         </init-param>
+        <init-param>
+            <param-name>urlModifierEtudiant</param-name>
+            <param-value>/WEB-INF/JSP/modifierEtudiant.jsp</param-value>
+        </init-param>
     </servlet>
 
     <!-- Mapping URL/Servlet -->

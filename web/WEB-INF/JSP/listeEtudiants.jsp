@@ -26,6 +26,7 @@
         <tr>
             <th>Etudiant</th>
             <th>Groupe</th>
+            <th>Edition</th>
         </tr>
         <%
             for (Etudiant etudiant : listeEtudiants) {
@@ -35,7 +36,12 @@
                 <a href="<%= application.getContextPath()%>/do/etudiant?id=<%=etudiant.getId()%>"><%=etudiant.getPrenom()%> <%=etudiant.getNom()%>
                 </a>
             </td>
-            <td><%=etudiant.getGroupe().getNom()%>
+            <td><%=etudiant.getGroupe().getNom()%></td>
+            <td>
+                <div class="btn-group" role="group">
+                    <a href="<%=application.getContextPath()%>/do/supprimer-etudiant?id=<%=etudiant.getId()%>" class="btn btn-danger">Supprimer</a>
+                    <a href="<%=application.getContextPath()%>/do/modifier-etudiant?id=<%=etudiant.getId()%>" class="btn btn-primary">Modifier</a>
+                </div>
             </td>
         </tr>
         <%
