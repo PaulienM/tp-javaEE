@@ -59,6 +59,18 @@
             <param-name>urlModifierEtudiant</param-name>
             <param-value>/WEB-INF/JSP/modifierEtudiant.jsp</param-value>
         </init-param>
+        <init-param>
+            <param-name>urlGererGroupes</param-name>
+            <param-value>/WEB-INF/JSP/groupe/gererGroupes.jsp</param-value>
+        </init-param>
+        <init-param>
+            <param-name>urlNouveauGroupe</param-name>
+            <param-value>/WEB-INF/JSP/groupe/nouveauGroupe.jsp</param-value>
+        </init-param>
+        <init-param>
+            <param-name>urlModifierGroupe</param-name>
+            <param-value>/WEB-INF/JSP/groupe/modifierGroupe.jsp</param-value>
+        </init-param>
     </servlet>
 
     <!-- Mapping URL/Servlet -->

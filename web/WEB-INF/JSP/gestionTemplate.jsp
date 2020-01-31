@@ -26,6 +26,8 @@
                 notes</a>
             <a class="nav-item nav-link" href="<%= application.getContextPath()%>/do/consultationAbsences">Consulter les
                 absences</a>
+            <a class="nav-item nav-link" href="<%= application.getContextPath()%>/do/gerer-groupes">Gérer les
+                groupes</a>
         </div>
     </div>
 </nav>

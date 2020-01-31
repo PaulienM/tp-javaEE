@@ -33,6 +33,9 @@ public class Controller extends HttpServlet {
     private String urlConsultationNotes;
     private String urlNouvelEtudiant;
     private String urlModifierEtudiant;
+    private String urlGererGroupes;
+    private String urlNouveauGroupe;
+    private String urlModifierGroupe;
 
 
     // INIT
@@ -47,6 +50,9 @@ public class Controller extends HttpServlet {
         urlConsultationNotes = getServletConfig().getInitParameter("urlConsultationNotes");
         urlNouvelEtudiant = getServletConfig().getInitParameter("urlNouvelEtudiant");
         urlModifierEtudiant = getServletConfig().getInitParameter("urlModifierEtudiant");
+        urlGererGroupes = getServletConfig().getInitParameter("urlGererGroupes");
+        urlNouveauGroupe = getServletConfig().getInitParameter("urlNouveauGroupe");
+        urlModifierGroupe = getServletConfig().getInitParameter("urlModifierGroupe");
 
         if ((GroupeDAO.getAll().size() == 0) && (EtudiantDAO.getAll().size() == 0)) {
 
@@ -144,6 +150,18 @@ public class Controller extends HttpServlet {
         } else if (action.equals("/supprimer-etudiant")) {
 
             doSupprimerEtudiant(request, response);
+        } else if (action.equals("/gerer-groupes")){
+
+            doGererGroupes(request, response);
+        } else if (action.equals("/nouveau-groupe")){
+
+            doNouveauGroupe(request, response);
+        } else if (action.equals("/modifier-groupe")){
+
+            doModifierGroupe(request, response);
+        } else if (action.equals("/supprimer-groupe")){
+
+            doSupprimerGroupe(request, response);
         } else {
             // Autres cas
             doAcceuil(request, response);
@@ -362,6 +380,64 @@ public class Controller extends HttpServlet {
         EtudiantDAO.remove(etudiant);
 
         response.sendRedirect(request.getContextPath() + "/do/listeEtudiants");
+    }
+
+    private void doGererGroupes(HttpServletRequest request,
+                                HttpServletResponse response) throws ServletException, IOException {
+        List<Groupe> groupes = GroupeDAO.getAll();
+
+        request.setAttribute("groupes", groupes);
+        request.setAttribute("content", urlGererGroupes);
+
+        loadJSP(urlGestionTemplate, request, response);
+    }
+
+    private void doNouveauGroupe(HttpServletRequest request,
+                                  HttpServletResponse response) throws ServletException, IOException {
+        String nom = request.getParameter("nom");
+
+        if (nom != null) {
+            GroupeDAO.create(nom);
+
+            doGererGroupes(request,response);
+        }
+
+        request.setAttribute("content", urlNouveauGroupe);
+        loadJSP(urlGestionTemplate, request, response);
+    }
+
+    private void doModifierGroupe(HttpServletRequest request,
+                                    HttpServletResponse response) throws ServletException, IOException {
+
+        Groupe groupe = GroupeDAO.retrieveById(Integer.parseInt(request.getParameter("id")));
+        String nom = request.getParameter("nom");
+
+        if (nom != null) {
+            groupe.setNom(nom);
+
+            GroupeDAO.update(groupe);
+
+            doGererGroupes(request,response);
+        }
+
+        request.setAttribute("groupe", groupe);
+        request.setAttribute("content", urlModifierGroupe);
+        loadJSP(urlGestionTemplate, request, response);
+    }
+
+    /**
+     * Route :
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
+    private void doSupprimerGroupe(HttpServletRequest request,
+                                     HttpServletResponse response) throws ServletException, IOException {
+        Groupe groupe = GroupeDAO.retrieveById(Integer.parseInt(request.getParameter("id")));
+        GroupeDAO.remove(groupe);
+
+        response.sendRedirect(request.getContextPath() + "/do/gerer-groupes");
     }
 
     /**
