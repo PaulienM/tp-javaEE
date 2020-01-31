@@ -15,10 +15,10 @@
     <!-- AFFICHAGE d'un titre  -->
     <h3 class="ml-4">Liste des étudiants</h3>
 
+    <jsp:include page="/WEB-INF/JSP/filtreGroupe.jsp"/>
+
     <!-- AFFICHAGE des notes des étudiants  -->
     <% if (listeEtudiants.size() != 0) {%>
-
-    <jsp:include page="/WEB-INF/JSP/filtreGroupe.jsp"/>
 
     <!-- tableau de notes  -->
     <table class="table table-striped table-dark">

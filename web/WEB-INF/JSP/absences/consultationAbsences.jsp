@@ -19,10 +19,10 @@ Map<Etudiant,Integer> listeAbsencesEtudiants = (Map<Etudiant,Integer>)request.ge
     <!-- AFFICHAGE en fonction du groupe ou de ALL  -->
     <h3 class="ml-4">Consultation des absences</h3>
 
+    <jsp:include page="/WEB-INF/JSP/filtreGroupe.jsp"/>
+
     <!-- AFFICHAGE des notes des étudiants  -->
     <% if (listeAbsencesEtudiants.size() != 0) {%>
-
-    <jsp:include page="/WEB-INF/JSP/filtreGroupe.jsp"/>
 
     <!-- tableau de notes  -->
     <table class="table table-striped table-dark">
