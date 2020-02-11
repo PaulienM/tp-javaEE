@@ -114,7 +114,7 @@ public class Controller extends HttpServlet {
     // GET
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
-
+        request.setCharacterEncoding("UTF-8");
         // On récupère le path
         String action = request.getPathInfo();
         if (action == null) {
@@ -336,7 +336,8 @@ public class Controller extends HttpServlet {
             Groupe groupe = GroupeDAO.retrieveById(Integer.parseInt(groupeId));
             EtudiantDAO.create(prenom, nom, groupe);
 
-            doListeEtudiants(request,response);
+            response.sendRedirect(request.getContextPath() + "/do/listeEtudiants");
+            return;
         }
 
         List<Groupe> groupes = GroupeDAO.getAll();
@@ -364,7 +365,8 @@ public class Controller extends HttpServlet {
 
             EtudiantDAO.update(etudiant);
 
-            doListeEtudiants(request,response);
+            response.sendRedirect(request.getContextPath() + "/do/listeEtudiants");
+            return;
         }
         List<Groupe> groupes = GroupeDAO.getAll();
 
@@ -399,7 +401,8 @@ public class Controller extends HttpServlet {
         if (nom != null) {
             GroupeDAO.create(nom);
 
-            doGererGroupes(request,response);
+            response.sendRedirect(request.getContextPath() + "/do/gerer-groupes");
+            return;
         }
 
         request.setAttribute("content", urlNouveauGroupe);
@@ -417,7 +420,8 @@ public class Controller extends HttpServlet {
 
             GroupeDAO.update(groupe);
 
-            doGererGroupes(request,response);
+            response.sendRedirect(request.getContextPath() + "/do/gerer-groupes");
+            return;
         }
 
         request.setAttribute("groupe", groupe);
