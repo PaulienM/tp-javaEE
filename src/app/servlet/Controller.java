@@ -101,6 +101,7 @@ public class Controller extends HttpServlet {
     // POST
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
+        request.setCharacterEncoding("UTF-8");
         // On récupère le path
         String action = request.getPathInfo();
         if (action.equals("/modifier-moyenne")) {
