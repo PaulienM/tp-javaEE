@@ -22,11 +22,11 @@
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
             <a class="nav-item nav-link" href="<%= application.getContextPath()%>/do/listeEtudiants">Les étudiants</a>
-            <a class="nav-item nav-link" href="<%= application.getContextPath()%>/do/consultationNotes">Consulter les
+            <a class="nav-item nav-link" href="<%= application.getContextPath()%>/do/consultationNotes">Les
                 notes</a>
-            <a class="nav-item nav-link" href="<%= application.getContextPath()%>/do/consultationAbsences">Consulter les
+            <a class="nav-item nav-link" href="<%= application.getContextPath()%>/do/consultationAbsences">Les
                 absences</a>
-            <a class="nav-item nav-link" href="<%= application.getContextPath()%>/do/gerer-groupes">Gérer les
+            <a class="nav-item nav-link" href="<%= application.getContextPath()%>/do/gerer-groupes">Les
                 groupes</a>
         </div>
     </div>

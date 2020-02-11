@@ -27,7 +27,7 @@
                 <label for="groupe">Groupe</label>
                 <select class="form-control" name="groupe" id="groupe">
                 <%for (Groupe groupe : groupes) {%>
-                    <option value="<%=groupe.getId()%>" <%=groupe == etudiant.getGroupe() ? "selected" : false%>><%=groupe.getNom()%></option>
+                    <option value="<%=groupe.getId()%>" <%=groupe.equals(etudiant.getGroupe()) ? "selected" : false%>><%=groupe.getNom()%></option>
                 <%}%>
                 </select>
             </div>
