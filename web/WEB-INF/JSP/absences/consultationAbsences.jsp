@@ -34,6 +34,10 @@ Map<Etudiant,Integer> listeAbsencesEtudiants = (Map<Etudiant,Integer>)request.ge
         </tr>
         <%
             int totalAbsences = 0;
+            String urlParameter = "";
+            if (request.getParameter("idGroupe") != null) {
+                urlParameter = "&idGroupe=" + request.getParameter("idGroupe");
+            }
             for (Etudiant etudiant : listeEtudiants) {
                 Integer absences = listeAbsencesEtudiants.get(etudiant);
         %>
@@ -47,8 +51,8 @@ Map<Etudiant,Integer> listeAbsencesEtudiants = (Map<Etudiant,Integer>)request.ge
             </td>
             <td>
                 <div class="btn-group" role="group">
-                    <a class="btn btn-secondary<%=absences < 1 ? " disabled":""%>" href="<%= application.getContextPath()%>/do/enlever-absence?id=<%=etudiant.getId()%>">-</a>
-                    <a class="btn btn-secondary" href="<%= application.getContextPath()%>/do/ajouter-absence?id=<%=etudiant.getId()%>">+</a>
+                    <a class="btn btn-secondary<%=absences < 1 ? " disabled":""%>" href="<%= application.getContextPath()%>/do/enlever-absence?id=<%=etudiant.getId()+urlParameter%>">-</a>
+                    <a class="btn btn-secondary" href="<%= application.getContextPath()%>/do/ajouter-absence?id=<%=etudiant.getId()+urlParameter%>">+</a>
                 </div>
             </td>
         </tr>

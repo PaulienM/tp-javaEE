@@ -163,7 +163,11 @@ public class Controller extends HttpServlet {
         } else if (action.equals("/supprimer-groupe")){
 
             doSupprimerGroupe(request, response);
-        } else {
+        } else if (action.equals("/gerer-modules")){
+
+            //doGererModules(request, response);
+        }
+        else {
             // Autres cas
             doAcceuil(request, response);
         }
@@ -297,7 +301,13 @@ public class Controller extends HttpServlet {
 
         EtudiantDAO.update(etudiant);
 
-        response.sendRedirect(request.getContextPath() + "/do/consultationAbsences");
+        String url = "/do/consultationAbsences";
+        String idGroupe = request.getParameter("idGroupe");
+        if (idGroupe != null) {
+            url += "?idGroupe=" + idGroupe;
+        }
+
+        response.sendRedirect(request.getContextPath() + url);
     }
 
     private void doEnleverAbsence(HttpServletRequest request,
@@ -310,7 +320,13 @@ public class Controller extends HttpServlet {
 
         EtudiantDAO.update(etudiant);
 
-        response.sendRedirect(request.getContextPath() + "/do/consultationAbsences");
+        String url = "/do/consultationAbsences";
+        String idGroupe = request.getParameter("idGroupe");
+        if (idGroupe != null) {
+            url += "?idGroupe=" + idGroupe;
+        }
+
+        response.sendRedirect(request.getContextPath() + url);
     }
 
     private void doChangerMoyenne(HttpServletRequest request,
