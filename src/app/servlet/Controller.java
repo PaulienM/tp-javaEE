@@ -163,9 +163,6 @@ public class Controller extends HttpServlet {
         } else if (action.equals("/supprimer-groupe")){
 
             doSupprimerGroupe(request, response);
-        } else if (action.equals("/gerer-modules")){
-
-            //doGererModules(request, response);
         }
         else {
             // Autres cas

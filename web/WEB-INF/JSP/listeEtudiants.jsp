@@ -36,7 +36,7 @@
                 <a href="<%= application.getContextPath()%>/do/etudiant?id=<%=etudiant.getId()%>"><%=etudiant.getPrenom()%> <%=etudiant.getNom()%>
                 </a>
             </td>
-            <td><%=etudiant.getGroupe().getNom()%></td>
+            <td><%=etudiant.getGroupe() != null ? etudiant.getGroupe().getNom() : "-"%></td>
             <td>
                 <div class="btn-group" role="group">
                     <a href="<%=application.getContextPath()%>/do/supprimer-etudiant?id=<%=etudiant.getId()%>" class="btn btn-danger">Supprimer</a>

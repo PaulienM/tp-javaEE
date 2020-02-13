@@ -4,6 +4,8 @@
     <root id="archive" name="tp_mi4_war.war">
       <element id="artifact" artifact-name="tp_mi4:war exploded" />
       <element id="library" level="project" name="mysql:mysql-connector-java:5.1.48" />
+      <element id="library" level="project" name="org.eclipse.persistence:javax.persistence:2.2.1" />
+      <element id="library" level="project" name="org.eclipse.persistence:eclipselink:2.7.5" />
     </root>
   </artifact>
 </component>

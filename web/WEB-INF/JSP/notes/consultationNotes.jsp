@@ -37,7 +37,7 @@
             <td>
                 <a href="<%= application.getContextPath()%>/do/etudiant?id=<%=etudiant.getId()%>"><%=etudiant.getPrenom()%> <%=etudiant.getNom()%>
                 </a></td>
-            <td><%=etudiant.getGroupe().getNom()%>
+            <td><%=etudiant.getGroupe() != null ? etudiant.getGroupe().getNom() : "-"%>
             </td>
             <td><%=note%>
             </td>
