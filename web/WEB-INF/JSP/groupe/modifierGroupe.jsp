@@ -1,4 +1,4 @@
-<%--
+<%@ page import="app.data.Module" %><%--
   Created by IntelliJ IDEA.
   User: marangep
   Date: 31/01/2020
@@ -20,6 +20,13 @@
             </div>
             <button type="submit" class="btn btn-primary">Enregistrer</button>
         </form>
+
+        <h3>Modules</h3>
+        <ul>
+            <% for (Module module : groupe.getModules()) { %>
+            <li><%=module.getNom()%></li>
+            <%}%>
+        </ul>
     </div>
 
 </div>
