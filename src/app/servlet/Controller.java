@@ -477,6 +477,7 @@ public class Controller extends HttpServlet {
 
         for (Etudiant etudiant : groupe.getEtudiants()) {
             etudiant.setGroupe(null);
+            EtudiantDAO.update(etudiant);
         }
 
         GroupeDAO.remove(groupe);
