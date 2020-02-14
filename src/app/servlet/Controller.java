@@ -474,6 +474,11 @@ public class Controller extends HttpServlet {
     private void doSupprimerGroupe(HttpServletRequest request,
                                      HttpServletResponse response) throws ServletException, IOException {
         Groupe groupe = GroupeDAO.retrieveById(Integer.parseInt(request.getParameter("id")));
+
+        for (Etudiant etudiant : groupe.getEtudiants()) {
+            etudiant.setGroupe(null);
+        }
+
         GroupeDAO.remove(groupe);
 
         response.sendRedirect(request.getContextPath() + "/do/gerer-groupes");
