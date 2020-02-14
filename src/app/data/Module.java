@@ -44,8 +44,17 @@ public class Module implements Serializable {
     }
 
     public void addGroupe(Groupe groupe) {
-        groupes.add(groupe);
-        //groupe.getModules().add(this);
+        if (!this.groupes.contains(groupe)) {
+            groupes.add(groupe);
+            groupe.addModule(this);
+        }
+    }
+
+    public void setGroupes(List<Groupe> groupes) {
+        this.groupes = groupes;
+        for (Groupe groupe : groupes) {
+            groupe.addModule(this);
+        }
     }
 
     @Override

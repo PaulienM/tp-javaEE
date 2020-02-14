@@ -71,6 +71,18 @@
             <param-name>urlModifierGroupe</param-name>
             <param-value>/WEB-INF/JSP/groupe/modifierGroupe.jsp</param-value>
         </init-param>
+        <init-param>
+            <param-name>urlListeModules</param-name>
+            <param-value>/WEB-INF/JSP/listeModules.jsp</param-value>
+        </init-param>
+        <init-param>
+            <param-name>urlNouveauModule</param-name>
+            <param-value>/WEB-INF/JSP/creerModule.jsp</param-value>
+        </init-param>
+        <init-param>
+            <param-name>urlModifierModule</param-name>
+            <param-value>/WEB-INF/JSP/modifierModule.jsp</param-value>
+        </init-param>
     </servlet>
 
     <!-- Mapping URL/Servlet -->

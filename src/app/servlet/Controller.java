@@ -10,6 +10,7 @@ package app.servlet;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -36,6 +37,9 @@ public class Controller extends HttpServlet {
     private String urlGererGroupes;
     private String urlNouveauGroupe;
     private String urlModifierGroupe;
+    private String urlListeModules;
+    private String urlNouveauModule;
+    private String urlModifierModule;
 
 
     // INIT
@@ -53,6 +57,9 @@ public class Controller extends HttpServlet {
         urlGererGroupes = getServletConfig().getInitParameter("urlGererGroupes");
         urlNouveauGroupe = getServletConfig().getInitParameter("urlNouveauGroupe");
         urlModifierGroupe = getServletConfig().getInitParameter("urlModifierGroupe");
+        urlListeModules = getServletConfig().getInitParameter("urlListeModules");
+        urlNouveauModule = getServletConfig().getInitParameter("urlNouveauModule");
+        urlModifierModule = getServletConfig().getInitParameter("urlModifierModule");
 
         if ((GroupeDAO.getAll().size() == 0) && (EtudiantDAO.getAll().size() == 0)) {
 
@@ -70,9 +77,11 @@ public class Controller extends HttpServlet {
             EtudiantDAO.create("Sébastien", "Bourdon", MESSI);
             EtudiantDAO.create("Mathieu", "Gatumel", SIMO);
 
+            List<Groupe> groupeList = new ArrayList<>();
+
             // Creation des groupes
-            Module MI1 = ModuleDAO.create("MI1");
-            Module MI4 = ModuleDAO.create("MI4");
+            Module MI1 = ModuleDAO.create("MI1", groupeList);
+            Module MI4 = ModuleDAO.create("MI4", groupeList);
 
             // Liés groupe et module
             MIAM.addModule(MI1);
@@ -163,6 +172,18 @@ public class Controller extends HttpServlet {
         } else if (action.equals("/supprimer-groupe")){
 
             doSupprimerGroupe(request, response);
+        } else if (action.equals("/liste-module")) {
+
+            doListeModules(request, response);
+        } else if (action.equals("/editer-module")) {
+
+            doModifierModule(request, response);
+        } else if (action.equals("/creer-module")) {
+
+            doCreerModule(request, response);
+        } else if (action.equals("/supprimer-module")) {
+
+            doSupprimerModule(request, response);
         }
         else {
             // Autres cas
@@ -457,6 +478,92 @@ public class Controller extends HttpServlet {
 
         response.sendRedirect(request.getContextPath() + "/do/gerer-groupes");
     }
+
+    private void doListeModules(HttpServletRequest request,
+                                HttpServletResponse response) throws ServletException, IOException {
+        String groupeId = request.getParameter("idGroupe");
+
+        List<Module> moduleList = ModuleDAO.getAll();
+        List<Module> modules;
+
+        if (groupeId != null) {
+            Groupe groupe = GroupeDAO.retrieveById(Integer.parseInt(groupeId));
+            modules = moduleList.stream().filter(m -> m.getGroupes().contains(groupe))
+                    .collect(Collectors.toList());
+        } else {
+            modules = moduleList;
+        }
+
+        request.setAttribute("listeModules", modules);
+        request.setAttribute("content", urlListeModules);
+
+        loadJSP(urlGestionTemplate, request, response);
+    }
+
+    private void doCreerModule(HttpServletRequest request,
+                               HttpServletResponse response) throws ServletException, IOException {
+
+        String nom = request.getParameter("nom");
+        String groupeIds[] = request.getParameterValues("groupe");
+
+        List<Groupe> groupeListe = GroupeDAO.getAll();
+
+        if (nom != null) {
+            List<Groupe> groupes = new ArrayList<>();
+            for (String groupeId : groupeIds) {
+                Groupe groupe = GroupeDAO.retrieveById(Integer.parseInt(groupeId));
+                groupes.add(groupe);
+            }
+            ModuleDAO.create(nom, groupes);
+
+            response.sendRedirect(request.getContextPath() + "/do/liste-module");
+            return;
+        }
+
+        request.setAttribute("groupes", groupeListe);
+        request.setAttribute("content", urlNouveauModule);
+        loadJSP(urlGestionTemplate, request, response);
+    }
+
+    private void doModifierModule(HttpServletRequest request,
+                               HttpServletResponse response) throws ServletException, IOException {
+        Module module = ModuleDAO.retrieveById(Integer.parseInt(request.getParameter("id")));
+
+        String nom = request.getParameter("nom");
+        String groupeIds[] = request.getParameterValues("groupe");
+
+        List<Groupe> groupeListe = GroupeDAO.getAll();
+
+        if (nom != null) {
+            List<Groupe> groupes = new ArrayList<>();
+            for (String groupeId : groupeIds) {
+                Groupe groupe = GroupeDAO.retrieveById(Integer.parseInt(groupeId));
+                groupes.add(groupe);
+            }
+            module.setGroupes(groupes);
+            module.setNom(nom);
+
+            ModuleDAO.update(module);
+
+            response.sendRedirect(request.getContextPath() + "/do/liste-module");
+            return;
+        }
+
+        request.setAttribute("groupes", groupeListe);
+        request.setAttribute("module", module);
+        request.setAttribute("content", urlModifierModule);
+        loadJSP(urlGestionTemplate, request, response);
+    }
+
+    private void doSupprimerModule(HttpServletRequest request,
+                                   HttpServletResponse response) throws ServletException, IOException {
+        Module module = ModuleDAO.retrieveById(Integer.parseInt(request.getParameter("id")));
+        ModuleDAO.remove(module);
+
+        response.sendRedirect(request.getContextPath() + "/do/liste-module");
+    }
+
+
 
     /**
      * Charge la JSP indiquée en paramètre
